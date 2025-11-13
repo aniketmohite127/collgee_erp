@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Faculty - Upload Study Material</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gradient-to-r from-indigo-600 to-purple-700 min-h-screen font-sans text-white flex items-center justify-center p-6">
+
+  <div class="bg-white text-gray-900 rounded-2xl shadow-xl max-w-lg w-full p-8">
+    <h1 class="text-3xl font-bold mb-6 text-center text-indigo-700">📚 Upload Study Material</h1>
+
+    <form id="uploadForm" class="space-y-5">
+      
+      <div>
+        <label for="subject" class="block font-semibold mb-1">Select Subject</label>
+        <select id="subject" class="w-full border border-indigo-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="" disabled selected>Select subject</option>
+          <option>Data Structures</option>
+          <option>Operating Systems</option>
+          <option>Maths 3</option>
+          <option>Database Management</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="materialType" class="block font-semibold mb-1">Material Type</label>
+        <select id="materialType" class="w-full border border-indigo-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="" disabled selected>Select type</option>
+          <option>Lecture Notes</option>
+          <option>PDF</option>
+          <option>Video</option>
+          <option>Assignment</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="fileUpload" class="block font-semibold mb-1">Choose File</label>
+        <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.zip" class="w-full text-indigo-600" />
+      </div>
+
+      <div>
+        <label for="description" class="block font-semibold mb-1">Description (Optional)</label>
+        <textarea id="description" rows="3" placeholder="Add any notes or details here..." class="w-full border border-indigo-300 rounded-md p-3 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+      </div>
+
+      <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg transition">Upload Material</button>
+    </form>
+
+    <p id="statusMessage" class="mt-4 text-center text-green-600 font-semibold hidden">Material uploaded successfully! 🎉</p>
+  </div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const statusMessage = document.getElementById('statusMessage');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const subject = document.getElementById('subject').value;
+      const materialType = document.getElementById('materialType').value;
+      const fileInput = document.getElementById('fileUpload');
+
+      if (!subject || !materialType || !fileInput.files.length) {
+        alert('Please fill all required fields and select a file.');
+        return;
+      }
+
+      // Here you can add your backend upload logic (Node.js, PHP, Firebase)
+      // For demo, just show success message
+
+      statusMessage.classList.remove('hidden');
+
+      // Reset form after submission
+      form.reset();
+
+      setTimeout(() => {
+        statusMessage.classList.add('hidden');
+      }, 4000);
+    });
+    <!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='file:///D:/SAM/clg/facluty/faculty2.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+
+  </script>
+ <!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='faculty dashboard.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+</body>
+</html>

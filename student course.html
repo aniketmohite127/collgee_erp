@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Select Department | College ERP</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+ 
+  <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-lg">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">🎓 Select Your Department</h2>
+
+    <div class="space-y-6">
+      <div>
+        <label for="department" class="block text-gray-700 font-medium mb-1">Department</label>
+        <select id="department" required class="w-full border px-4 py-2 rounded-lg">
+          <option value="" disabled selected>Select Department</option>
+          <option value="D:\SAM\clg\dashboard\course\cse corse.html">Computer Science and Engineering</option>
+          <option value="D:\SAM\clg\dashboard\course\ai course.html">Artificial Intelligence and Data Science</option>
+          <option value="D:\SAM\clg\dashboard\course\entc course.html">Electronics and Telecommunication</option>
+          <option value="D:\SAM\clg\dashboard\course\electrical.html">Electrical Engineering</option>
+          <option value="D:\SAM\clg\dashboard\course\mechanical course.html">Mechanical and Automation</option>
+        </select>
+        <p id="errorMsg" class="text-red-600 mt-2 hidden">Please select a department.</p>
+      </div>
+
+      <a id="continueLink" href="#" class="block w-full bg-indigo-600 text-white py-2 text-center rounded-lg hover:bg-indigo-700 transition">
+        Continue to Courses
+      </a>
+      <!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='STUDENT DASHBOARD.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+    </div>
+  </div>
+
+  <script>
+    const department = document.getElementById('department');
+    const continueLink = document.getElementById('continueLink');
+    const errorMsg = document.getElementById('errorMsg');
+
+    continueLink.addEventListener('click', function(e) {
+      const selected = department.value;
+
+      if (!selected) {
+        e.preventDefault(); // stop redirect
+        errorMsg.classList.remove('hidden');
+      } else {
+        errorMsg.classList.add('hidden');
+        continueLink.href = selected;
+      }
+    });
+  </script>
+  
+</body>
+</html>

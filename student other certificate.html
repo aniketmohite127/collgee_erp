@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>College ERP - Other Certificates</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<style>
+  body {
+    background: linear-gradient(135deg, #6b46c1 0%, #b83280 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 2rem;
+    color: white;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 2.8rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 1.5rem;
+  }
+  .card {
+    background: #fff;
+    color: #5a2a83;
+    border-radius: 1rem;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    padding: 1.8rem 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  }
+  .card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  .card h3 {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 0.7rem;
+  }
+  .card p {
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+  .modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+  }
+  .modal {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 450px;
+    width: 90%;
+    color: #5a2a83;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .modal h2 {
+    margin-bottom: 1rem;
+  }
+  .modal label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .modal input, .modal select {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    margin-bottom: 1rem;
+    border: 2px solid #b83280;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    outline: none;
+  }
+  .modal button {
+    background: #b83280;
+    color: white;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+  }
+  .modal button:hover {
+    background: #6b46c1;
+  }
+  .close-btn {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #b83280;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Other Certificates</h1>
+    
+<!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='STUDENT DASHBOARD.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card" onclick="openModal('transfer')">
+        <div class="card-icon">📄</div>
+        <h3>Transfer Certificate</h3>
+        <p>Request and download your official transfer certificate.</p>
+      </div>
+      <div class="card" onclick="openModal('migration')">
+        <div class="card-icon">🌍</div>
+        <h3>Migration Certificate</h3>
+        <p>Apply for migration certificate for higher studies or job.</p>
+      </div>
+      <div class="card" onclick="openModal('character')">
+        <div class="card-icon">📝</div>
+        <h3>Character Certificate</h3>
+        <p>Get your character certificate issued by the college.</p>
+      </div>
+      <div class="card" onclick="openModal('internship')">
+        <div class="card-icon">💼</div>
+        <h3>Internship Certificate</h3>
+        <p>Download certificates for completed internships.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-bg" id="modalBg">
+    <div class="modal" id="modal">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2 id="modalTitle">Certificate Request</h2>
+      <form id="certForm" onsubmit="submitForm(event)">
+        <label for="studentName">Student Name</label>
+        <input type="text" id="studentName" required />
+
+        <label for="rollNumber">Roll Number</label>
+        <input type="text" id="rollNumber" required />
+
+        <label for="reason">Reason (Optional)</label>
+        <input type="text" id="reason" placeholder="Purpose for certificate" />
+
+        <button type="submit">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+<script>
+  let currentCert = '';
+  const modalBg = document.getElementById('modalBg');
+  const modalTitle = document.getElementById('modalTitle');
+  const certForm = document.getElementById('certForm');
+
+  function openModal(certType) {
+    currentCert = certType;
+    modalTitle.textContent = certType.charAt(0).toUpperCase() + certType.slice(1) + " Certificate Request";
+    modalBg.style.display = 'flex';
+  }
+
+  function closeModal() {
+    modalBg.style.display = 'none';
+    certForm.reset();
+  }
+
+  function submitForm(e) {
+    e.preventDefault();
+    const name = document.getElementById('studentName').value.trim();
+    const roll = document.getElementById('rollNumber').value.trim();
+    const reason = document.getElementById('reason').value.trim();
+
+    if(!name || !roll) {
+      alert('Please fill all required fields.');
+      return;
+    }
+    // Here you can add backend call or email integration for real requests
+
+    alert(`Your request for ${currentCert} certificate has been submitted successfully!\n\nName: ${name}\nRoll No: ${roll}\nReason: ${reason ? reason : 'N/A'}`);
+    closeModal();
+  }
+
+  // Close modal if click outside modal content
+  window.onclick = function(event) {
+    if(event.target === modalBg) {
+      closeModal();
+    }
+  }
+</script>
+</body>
+</html>

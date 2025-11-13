@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Faculty Access - Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to right, #4f46e5, #9333ea);
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+  </style>
+</head>
+<body class="p-6">
+  <div class="max-w-7xl mx-auto bg-white rounded-xl shadow-lg p-6 text-gray-800">
+    <h1 class="text-3xl font-bold mb-6 text-center text-purple-800">Manage Faculty Access</h1>
+<!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='file:///D:/SAM/clg/admin/dashboard.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+    <!-- Add Faculty Button -->
+    <div class="flex justify-end mb-4">
+      <button onclick="openModal()" class="bg-purple-700 text-white px-5 py-2 rounded hover:bg-purple-800">
+        + Add Faculty
+      </button>
+    </div>
+
+    <!-- Faculty Table -->
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full border-collapse">
+        <thead class="bg-purple-100 text-purple-800">
+          <tr>
+            <th class="px-4 py-2 text-left">Name</th>
+            <th class="px-4 py-2 text-left">Department</th>
+            <th class="px-4 py-2 text-left">Email</th>
+            <th class="px-4 py-2 text-left">Access Level</th>
+            <th class="px-4 py-2 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="facultyTable" class="bg-white text-black">
+          <!-- Faculty data will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 hidden justify-center items-center">
+    <div class="bg-white rounded-xl p-6 w-96">
+      <h2 class="text-xl font-bold mb-4 text-purple-700" id="modalTitle">Add Faculty</h2>
+      <input type="text" id="facultyName" placeholder="Full Name" class="w-full mb-3 p-2 border rounded" />
+      <input type="text" id="facultyDept" placeholder="Department" class="w-full mb-3 p-2 border rounded" />
+      <input type="email" id="facultyEmail" placeholder="Email" class="w-full mb-3 p-2 border rounded" />
+      <select id="facultyAccess" class="w-full mb-4 p-2 border rounded">
+        <option value="Read Only">Read Only</option>
+        <option value="Full Access">Full Access</option>
+      </select>
+      <div class="flex justify-end space-x-2">
+        <button onclick="closeModal()" class="bg-gray-300 px-4 py-2 rounded">Cancel</button>
+        <button onclick="saveFaculty()" class="bg-purple-700 text-white px-4 py-2 rounded">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let facultyList = [];
+    let editIndex = null;
+
+    function openModal(index = null) {
+      document.getElementById("modal").style.display = "flex";
+      document.getElementById("modalTitle").textContent = index !== null ? "Edit Faculty" : "Add Faculty";
+      editIndex = index;
+
+      if (index !== null) {
+        const f = facultyList[index];
+        document.getElementById("facultyName").value = f.name;
+        document.getElementById("facultyDept").value = f.dept;
+        document.getElementById("facultyEmail").value = f.email;
+        document.getElementById("facultyAccess").value = f.access;
+      } else {
+        document.getElementById("facultyName").value = '';
+        document.getElementById("facultyDept").value = '';
+        document.getElementById("facultyEmail").value = '';
+        document.getElementById("facultyAccess").value = 'Read Only';
+      }
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+
+    function saveFaculty() {
+      const name = document.getElementById("facultyName").value.trim();
+      const dept = document.getElementById("facultyDept").value.trim();
+      const email = document.getElementById("facultyEmail").value.trim();
+      const access = document.getElementById("facultyAccess").value;
+
+      if (!name || !dept || !email) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      const faculty = { name, dept, email, access };
+
+      if (editIndex !== null) {
+        facultyList[editIndex] = faculty;
+      } else {
+        facultyList.push(faculty);
+      }
+
+      renderFaculty();
+      closeModal();
+    }
+
+    function deleteFaculty(index) {
+      if (confirm("Are you sure you want to remove this faculty?")) {
+        facultyList.splice(index, 1);
+        renderFaculty();
+      }
+    }
+
+    function renderFaculty() {
+      const tbody = document.getElementById("facultyTable");
+      tbody.innerHTML = '';
+      facultyList.forEach((f, index) => {
+        tbody.innerHTML += `
+          <tr class="border-b">
+            <td class="px-4 py-2">${f.name}</td>
+            <td class="px-4 py-2">${f.dept}</td>
+            <td class="px-4 py-2">${f.email}</td>
+            <td class="px-4 py-2">${f.access}</td>
+            <td class="px-4 py-2 space-x-2">
+              <button onclick="openModal(${index})" class="text-blue-600">Edit</button>
+              <button onclick="deleteFaculty(${index})" class="text-red-600">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>

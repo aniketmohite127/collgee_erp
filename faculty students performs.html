@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Faculty Dashboard - Edit Student Marks</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #eef2f7;
+    margin: 0; padding: 20px;
+  }
+  .container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.8rem;
+  }
+  .search-bar {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+  .search-bar input {
+    width: 300px;
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #5a2a83;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .search-bar input:focus {
+    border-color: #b83280;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    text-align: center;
+    padding: 12px 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  th {
+    background-color: #5a2a83;
+    color: white;
+  }
+  tr:hover {
+    background-color: #f9f4ff;
+  }
+  td[contenteditable="true"] {
+    background-color: #fff8f0;
+    border-radius: 4px;
+    cursor: text;
+  }
+  .btn-save {
+    margin-top: 20px;
+    float: right;
+    background-color: #b83280;
+    color: white;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .btn-save:hover {
+    background-color: #5a2a83;
+  }
+  .no-data {
+    text-align: center;
+    color: #999;
+    padding: 20px 0;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Edit Student Marks</h1>
+    <!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='faculty dashboard.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search by Name or Roll Number" onkeyup="filterTable()" />
+    </div>
+    <table id="marksTable">
+      <thead>
+        <tr>
+          <th>Roll No.</th>
+          <th>Name</th>
+          <th>Subject</th>
+          <th contenteditable="false">Marks Obtained</th>
+          <th>Max Marks</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <!-- Dynamic rows here -->
+      </tbody>
+    </table>
+    <div id="noDataMsg" class="no-data" style="display:none;">No students found.</div>
+    <button class="btn-save" onclick="saveMarks()">Save Changes</button>
+  </div>
+
+<script>
+  // Sample student data
+  let students = [
+    { roll: '101', name: 'Aniket Mohite', subject: 'Data Structures', marks: 78, maxMarks: 100 },
+    { roll: '102', name: 'Rohan Patil', subject: 'Algorithms', marks: 85, maxMarks: 100 },
+    { roll: '103', name: 'Sneha Kulkarni', subject: 'DBMS', marks: 72, maxMarks: 100 },
+    { roll: '104', name: 'Kiran Jadhav', subject: 'Operating Systems', marks: 90, maxMarks: 100 },
+    { roll: '105', name: 'Neha More', subject: 'Computer Networks', marks: 65, maxMarks: 100 },
+  ];
+
+  const tableBody = document.getElementById('tableBody');
+  const noDataMsg = document.getElementById('noDataMsg');
+
+  function loadTable(data = students) {
+    tableBody.innerHTML = '';
+    if(data.length === 0) {
+      noDataMsg.style.display = 'block';
+      return;
+    } else {
+      noDataMsg.style.display = 'none';
+    }
+
+    data.forEach((student, idx) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${student.roll}</td>
+        <td>${student.name}</td>
+        <td>${student.subject}</td>
+        <td contenteditable="true" oninput="validateMarks(this)">${student.marks}</td>
+        <td>${student.maxMarks}</td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  }
+
+  function filterTable() {
+    const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+    const filtered = students.filter(student => 
+      student.name.toLowerCase().includes(searchVal) || student.roll.includes(searchVal)
+    );
+    loadTable(filtered);
+  }
+
+  // Validate marks input to be number and within max marks
+  function validateMarks(cell) {
+    let val = cell.textContent.trim();
+    if(isNaN(val) || val === '') {
+      cell.style.backgroundColor = '#fdd';
+      return;
+    }
+    val = Number(val);
+    const maxMarks = Number(cell.nextElementSibling.textContent);
+    if(val < 0 || val > maxMarks) {
+      cell.style.backgroundColor = '#fdd';
+    } else {
+      cell.style.backgroundColor = '#fff8f0';
+    }
+  }
+
+  // Save updated marks
+  function saveMarks() {
+    const rows = tableBody.querySelectorAll('tr');
+    let valid = true;
+    rows.forEach((row, i) => {
+      const marksCell = row.children[3];
+      const val = marksCell.textContent.trim();
+      const maxMarks = Number(row.children[4].textContent);
+      if(isNaN(val) || val === '' || Number(val) < 0 || Number(val) > maxMarks) {
+        valid = false;
+        marksCell.style.backgroundColor = '#fdd';
+      } else {
+        students[i].marks = Number(val);
+        marksCell.style.backgroundColor = '#fff8f0';
+      }
+    });
+
+    if(!valid) {
+      alert('Please correct invalid marks highlighted in red before saving.');
+      return;
+    }
+
+    // Placeholder: Backend API call to save marks
+    // For example: 
+    // fetch('/api/save-marks', {method:'POST', body: JSON.stringify(students)}) ...
+
+    alert('Marks saved successfully!');
+    console.log('Updated Students:', students);
+  }
+
+  // Initial load
+  loadTable();
+
+</script>
+</body>
+</html>

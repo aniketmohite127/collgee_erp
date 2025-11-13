@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>📚 Library - Student Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 min-h-screen text-white">
+
+  <div class="max-w-6xl mx-auto py-10 px-4">
+    <h1 class="text-4xl font-bold mb-6 text-center">📚 Library Dashboard</h1>
+
+    <!-- Book Search -->
+    <div class="mb-6">
+      <input type="text" placeholder="🔍 Search books..." class="w-full p-3 rounded-lg text-black" />
+    </div>
+
+    <!-- Available Books -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6 text-black">
+      <h2 class="text-2xl font-semibold mb-4 text-indigo-700">📗 Available Books</h2>
+      <ul class="space-y-2">
+        <li class="flex justify-between border-b pb-2">
+          <span>Data Structures in C</span><button class="bg-indigo-600 text-white px-3 py-1 rounded">Reserve</button>
+        </li>
+        <li class="flex justify-between border-b pb-2">
+          <span>Operating Systems Concepts</span><button class="bg-indigo-600 text-white px-3 py-1 rounded">Reserve</button>
+        </li>
+        <li class="flex justify-between">
+          <span>Web Development with JavaScript</span><button class="bg-indigo-600 text-white px-3 py-1 rounded">Reserve</button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Issued Books -->
+    <div class="bg-white rounded-xl shadow-lg p-6 mb-6 text-black">
+      <h2 class="text-2xl font-semibold mb-4 text-purple-700">📘 Issued Books</h2>
+      <table class="w-full table-auto">
+        <thead>
+          <tr class="bg-purple-100 text-left">
+            <th class="p-2">Book</th>
+            <th class="p-2">Issue Date</th>
+            <th class="p-2">Due Date</th>
+            <th class="p-2">Fine</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="p-2">DBMS Made Easy</td>
+            <td class="p-2">01 June 2025</td>
+            <td class="p-2">10 June 2025</td>
+            <td class="p-2 text-red-500">₹0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Borrow History -->
+    <div class="bg-white rounded-xl shadow-lg p-6 text-black">
+      <h2 class="text-2xl font-semibold mb-4 text-pink-700">📙 Borrow History</h2>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Computer Networks - Returned on 20 May 2025</li>
+        <li>Java Programming - Returned on 05 May 2025</li>
+        <li>Python Basics - Returned on 25 April 2025</li>
+      </ul>
+    </div>
+  </div>
+<!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='STUDENT DASHBOARD.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+
+</body>
+</html>

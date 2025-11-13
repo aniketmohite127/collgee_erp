@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Dashboard | Results & Grades | College ERP</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      padding: 2rem 2.5rem;
+    }
+    .header {
+      color: #4c51bf;
+      font-weight: 700;
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    select {
+      background-color: #f3f4f6;
+      border: 2px solid #4c51bf;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      color: #333;
+      transition: border-color 0.3s ease;
+    }
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 8px #667eea;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+    }
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+      font-weight: 600;
+      color: #4a4a4a;
+    }
+    th {
+      background-color: #667eea;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    tr:hover {
+      background-color: #e0e7ff;
+    }
+    .gpa-card {
+      margin-top: 1.5rem;
+      padding: 1rem 2rem;
+      background: #f0f4ff;
+      border-left: 6px solid #667eea;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #333;
+      max-width: 300px;
+      margin-left: auto;
+      border-radius: 0.5rem;
+    }
+    .student-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #555;
+    }
+    @media(max-width: 640px) {
+      .student-info {
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      .gpa-card {
+        max-width: 100%;
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='STUDENT DASHBOARD.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+  <div class="container" role="main" aria-label="Student Results and Grades Dashboard">
+    <h1 class="header">🎓 Student Results & Grades</h1>
+
+    <div class="student-info" aria-live="polite">
+      <div><strong>Name:</strong> Aniket Mohite</div>
+      <div><strong>Roll No:</strong> CSE2025001</div>
+    </div>
+
+    <label for="semesterSelect" class="block font-semibold mb-2 text-indigo-700">Select Semester:</label>
+    <select id="semesterSelect" aria-controls="resultsTable" onchange="loadResults()">
+      <option value="" selected disabled>-- Choose Semester --</option>
+      <option value="1">1st Semester</option>
+      <option value="2">2nd Semester</option>
+      <option value="3">3rd Semester</option>
+      <option value="4">4th Semester</option>
+      <option value="5">5th Semester</option>
+      <option value="6">6th Semester</option>
+      <option value="7">7th Semester</option>
+      <option value="8">8th Semester</option>
+    </select>
+
+    <table id="resultsTable" class="hidden" aria-label="Results Table for selected semester">
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Credits</th>
+          <th>Grade</th>
+          <th>Grade Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamic content -->
+      </tbody>
+    </table>
+
+    <div id="gpaCard" class="gpa-card hidden" aria-live="polite" aria-atomic="true">
+      <!-- GPA displayed here -->
+    </div>
+  </div>
+
+  <script>
+    // Sample results data for demonstration
+    const resultsData = {
+      "1": [
+        { subject: "Mathematics-I", credits: 4, grade: "A", gradePoints: 9 },
+        { subject: "Physics", credits: 3, grade: "B+", gradePoints: 8 },
+        { subject: "Basic Electrical Engineering", credits: 3, grade: "A-", gradePoints: 8.5 },
+        { subject: "Engineering Mechanics", credits: 4, grade: "B", gradePoints: 7 },
+        { subject: "Programming in C", credits: 3, grade: "A", gradePoints: 9 }
+      ],
+      "2": [
+        { subject: "Mathematics-II", credits: 4, grade: "A-", gradePoints: 8.5 },
+        { subject: "Chemistry", credits: 3, grade: "B", gradePoints: 7 },
+        { subject: "Data Structures", credits: 4, grade: "A", gradePoints: 9 },
+        { subject: "Digital Logic", credits: 3, grade: "B+", gradePoints: 8 },
+        { subject: "Environmental Science", credits: 2, grade: "A", gradePoints: 9 }
+      ],
+      "3": [
+        { subject: "Discrete Mathematics", credits: 4, grade: "B+", gradePoints: 8 },
+        { subject: "Object Oriented Programming", credits: 4, grade: "A", gradePoints: 9 },
+        { subject: "Data Structures Lab", credits: 2, grade: "A", gradePoints: 9 },
+        { subject: "Database Management Systems", credits: 4, grade: "B", gradePoints: 7 },
+        { subject: "Communication Skills", credits: 2, grade: "A", gradePoints: 9 }
+      ]
+      // Add more semesters as needed
+    };
+
+    function loadResults() {
+      const semSelect = document.getElementById('semesterSelect');
+      const table = document.getElementById('resultsTable');
+      const tbody = table.querySelector('tbody');
+      const gpaCard = document.getElementById('gpaCard');
+
+      const sem = semSelect.value;
+      tbody.innerHTML = '';
+      gpaCard.classList.add('hidden');
+
+      if (!sem || !resultsData[sem]) {
+        table.classList.add('hidden');
+        return;
+      }
+
+      const semesterResults = resultsData[sem];
+      table.classList.remove('hidden');
+
+      let totalCredits = 0;
+      let totalPoints = 0;
+
+      semesterResults.forEach(res => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+          <td>${res.subject}</td>
+          <td>${res.credits}</td>
+          <td>${res.grade}</td>
+          <td>${res.gradePoints.toFixed(1)}</td>
+        `;
+
+        tbody.appendChild(row);
+
+        totalCredits += res.credits;
+        totalPoints += res.credits * res.gradePoints;
+      });
+
+      const gpa = (totalPoints / totalCredits).toFixed(2);
+      gpaCard.textContent = `Semester GPA: ${gpa}`;
+      gpaCard.classList.remove('hidden');
+    }
+  </script>
+
+</body>
+</html>

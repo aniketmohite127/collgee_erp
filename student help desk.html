@@ -1,0 +1,187 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST" && strpos($_SERVER["CONTENT_TYPE"], "application/json") !== false) {
+  header('Content-Type: application/json');
+
+  $host = "localhost";
+  $user = "root";
+  $pass = "";
+  $db = "college_erp";
+
+  $conn = new mysqli($host, $user, $pass, $db);
+  if ($conn->connect_error) {
+    echo json_encode(["success" => false, "message" => "Connection failed"]);
+    exit();
+  }
+
+  $data = json_decode(file_get_contents("php://input"), true);
+
+  $studentId = $data['studentId'];
+  $department = $data['department'];
+  $issueType = $data['issueType'];
+  $description = $data['description'];
+
+  $stmt = $conn->prepare("INSERT INTO helpdesk_tickets (student_id, department, issue_type, description) VALUES (?, ?, ?, ?)");
+  $stmt->bind_param("ssss", $studentId, $department, $issueType, $description);
+
+  if ($stmt->execute()) {
+    echo json_encode(["success" => true, "message" => "Ticket submitted successfully!"]);
+  } else {
+    echo json_encode(["success" => false, "message" => "Error: " . $conn->error]);
+  }
+
+  $stmt->close();
+  $conn->close();
+  exit(); // prevent rendering HTML after JSON response
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>College ERP | 🆘 Helpdesk / Raise Ticket</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 1rem;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      padding: 2.5rem;
+      max-width: 480px;
+      margin: 3rem auto;
+      color: #1a202c;
+    }
+    .header-icon {
+      font-size: 3rem;
+      background: #2563eb;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+    }
+    input, select, textarea {
+      transition: all 0.3s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 8px #2563eb;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      font-weight: 600;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    button:hover {
+      background: #1e40af;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="header-icon mx-auto">🆘</div>
+    <h2 class="text-3xl font-bold text-center mb-6 text-blue-700">Helpdesk - Raise a Ticket</h2>
+
+    <form id="helpdeskForm" class="space-y-5">
+      <div>
+        <label for="studentId" class="block font-medium mb-1">Student ID</label>
+        <input type="text" id="studentId" name="studentId" placeholder="Enter your student ID" required
+               class="w-full border border-gray-300 rounded-md px-4 py-2" />
+      </div>
+
+      <div>
+        <label for="department" class="block font-medium mb-1">Department</label>
+        <select id="department" name="department" required
+                class="w-full border border-gray-300 rounded-md px-4 py-2">
+          <option value="">Select your department</option>
+          <option value="CSE">Computer Science & Engineering</option>
+          <option value="AI">Artificial Intelligence & Data Science</option>
+          <option value="ENTC">Electronics & Telecommunication</option>
+          <option value="Electrical">Electrical Engineering</option>
+          <option value="Mech">Mechanical & Automation</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="issueType" class="block font-medium mb-1">Issue Type</label>
+        <select id="issueType" name="issueType" required
+                class="w-full border border-gray-300 rounded-md px-4 py-2">
+          <option value="">Select issue type</option>
+          <option value="Technical">Technical Issue</option>
+          <option value="Academic">Academic Query</option>
+          <option value="Payment">Payment Related</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="description" class="block font-medium mb-1">Issue Description</label>
+        <textarea id="description" name="description" rows="4" placeholder="Describe your issue in detail" required
+                  class="w-full border border-gray-300 rounded-md px-4 py-2 resize-none"></textarea>
+      </div>
+
+      <button type="submit" class="w-full py-3 rounded-md shadow-md focus:ring-4 focus:ring-blue-400">
+        Submit Ticket
+      </button>
+    </form>
+
+    <div id="message" class="mt-5 text-center text-green-600 font-semibold"></div>
+  </div>
+
+  <!-- Back to Dashboard Button -->
+  <div class="mb-6 text-right">
+    <button 
+      class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+      onclick="window.location.href='STUDENT DASHBOARD.html'"
+      aria-label="Back to Dashboard"
+    >
+      ← Back to Dashboard
+    </button>
+  </div>
+
+  <script>
+    const form = document.getElementById('helpdeskForm');
+    const messageDiv = document.getElementById('message');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const studentId = form.studentId.value.trim();
+      const department = form.department.value;
+      const issueType = form.issueType.value;
+      const description = form.description.value.trim();
+
+      fetch('', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ studentId, department, issueType, description })
+      })
+      .then(response => response.json())
+      .then(data => {
+        messageDiv.textContent = data.message;
+        messageDiv.style.color = data.success ? 'green' : 'red';
+        if (data.success) form.reset();
+      })
+      .catch(error => {
+        messageDiv.textContent = "Something went wrong!";
+        messageDiv.style.color = 'red';
+      });
+    });
+  </script>
+
+</body>
+</html>

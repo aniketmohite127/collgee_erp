@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Complaint Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+
+  <div class="max-w-7xl mx-auto px-4 py-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+      <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
+        🆘 Complaint Management
+      </h1>
+
+      <!-- Filter & Add Complaint -->
+      <div class="flex gap-4 mt-4 md:mt-0">
+        <select class="p-2 border rounded-md text-sm shadow focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          <option value="">Filter by Status</option>
+          <option value="pending">Pending</option>
+          <option value="resolved">Resolved</option>
+        </select>
+        <button class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm hover:bg-indigo-700 shadow">
+          <i class="fas fa-plus mr-2"></i>Add Complaint
+        </button>
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="mb-4">
+      <input type="text" placeholder="🔍 Search by name, ID or complaint..."
+             class="w-full p-3 border rounded shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+    </div>
+
+    <!-- Complaints Table -->
+    <div class="bg-white shadow rounded-lg overflow-x-auto">
+      <table class="min-w-full table-auto text-sm">
+        <thead class="bg-indigo-600 text-white sticky top-0">
+          <tr>
+            <th class="px-4 py-3 text-left">#</th>
+            <th class="px-4 py-3 text-left">Name</th>
+            <th class="px-4 py-3 text-left">Complaint</th>
+            <th class="px-4 py-3 text-left">Status</th>
+            <th class="px-4 py-3 text-left">Date</th>
+            <th class="px-4 py-3 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-700 divide-y divide-gray-200 bg-white">
+          <tr>
+            <td class="px-4 py-3">1</td>
+            <td class="px-4 py-3">Aniket Mohite</td>
+            <td class="px-4 py-3">Internet not working in lab</td>
+            <td class="px-4 py-3">
+              <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">Pending</span>
+            </td>
+            <td class="px-4 py-3">08 June 2025</td>
+            <td class="px-4 py-3 space-x-2">
+              <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs">
+                <i class="fas fa-eye mr-1"></i>View
+              </button>
+              <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 text-xs">
+                <i class="fas fa-check-circle mr-1"></i>Resolve
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3">2</td>
+            <td class="px-4 py-3">Rutuja Patil</td>
+            <td class="px-4 py-3">Fan broken in classroom</td>
+            <td class="px-4 py-3">
+              <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">Resolved</span>
+            </td>
+            <td class="px-4 py-3">05 June 2025</td>
+            <td class="px-4 py-3">
+              <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs">
+                <i class="fas fa-eye mr-1"></i>View
+              </button>
+            </td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+<!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='file:///D:/SAM/clg/admin/dashboard.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Online Bonafide Certificate Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+    body {
+      font-family: 'Roboto Slab', serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding-top: 50px;
+    }
+
+    .certificate {
+      border: 8px double #764ba2;
+      background: white;
+      padding: 2rem;
+      width: 100%;
+      max-width: 700px;
+      margin: 1.5rem auto;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      position: relative;
+      font-size: 1.1rem;
+    }
+
+    .certificate h2 {
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: #4c51bf;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      letter-spacing: 0.1em;
+    }
+
+    .certificate h3 {
+      font-weight: 600;
+      color: #764ba2;
+      margin-bottom: 1rem;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .certificate p {
+      margin: 1rem 0;
+      line-height: 1.8;
+      color: #333;
+      text-align: justify;
+    }
+
+    .certificate .sign-section {
+      margin-top: 3rem;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 2rem;
+    }
+
+    .certificate .sign-section div {
+      border-top: 2px solid #764ba2;
+      width: 40%;
+      text-align: center;
+      font-weight: 600;
+      color: #555;
+      padding-top: 0.5rem;
+      font-style: italic;
+      font-size: 0.9rem;
+    }
+
+    .emblem {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 80px;
+      opacity: 0.1;
+      filter: drop-shadow(0 0 4px #764ba2);
+    }
+
+    .btn {
+      background-color: #764ba2;
+      color: white;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: inline-block;
+      text-align: center;
+      user-select: none;
+    }
+    .btn:hover {
+      background-color: #5a3478;
+      transform: scale(1.05);
+    }
+
+    /* PRINT ONLY CERTIFICATE */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #certificate, #certificate * {
+        visibility: visible;
+      }
+      #certificate {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="p-6">
+
+  <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl p-8">
+    <h1 class="text-4xl font-bold text-center text-indigo-700 mb-8">🎓 College Bonafide Certificate Generator</h1>
+
+    <form id="bonafideForm" class="space-y-6">
+      <div>
+        <label for="studentName" class="block font-semibold mb-2 text-gray-700">Student Name</label>
+        <input type="text" id="studentName" required placeholder="Enter full name"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+      </div>
+
+      <div>
+        <label for="rollNumber" class="block font-semibold mb-2 text-gray-700">Roll Number</label>
+        <input type="text" id="rollNumber" required placeholder="Enter roll number"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+      </div>
+
+      <div>
+        <label for="department" class="block font-semibold mb-2 text-gray-700">Department</label>
+        <select id="department" required
+          class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          <option value="" disabled selected>Select Department</option>
+          <option value="first year Computer Science & Engineering"> frist year Science & Engineering</option>
+          <option value="first year Artificial Intelligence & Data Science">frist yearArtificial Intelligence & Data Science</option>
+          <option value="first year Electronics & Telecommunication">frist year Electronics & Telecommunication</option>
+          <option value="first year Electrical Engineering">frist year Electrical Engineering</option>
+          <option value="first year Mechanical & Automation">frist year Mechanical & Automation</option>
+          <option value="second year Computer Science & Engineering">second year Computer Science & Engineering</option>
+          <option value="second year Artificial Intelligence & Data Science">second year Artificial Intelligence & Data Science</option>
+          <option value="second year Electronics & Telecommunication">second year Electronics & Telecommunication</option>
+          <option value="second year Electrical Engineering">second year Electrical Engineering</option>
+          <option value="second year Mechanical & Automation">second year Mechanical & Automation</option>
+            <option value="third year Computer Science & Engineering">third year Computer Science & Engineering</option>
+          <option value="third year Artificial Intelligence & Data Science">third year Artificial Intelligence & Data Science</option>
+          <option value="third year Electronics & Telecommunication">third year Electronics & Telecommunication</option>
+          <option value="third year Electrical Engineering">third year Electrical Engineering</option>
+          <option value="third year Mechanical & Automation">third year Mechanical & Automation</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="duration" class="block font-semibold mb-2 text-gray-700">Duration</label>
+        <input type="text" id="duration" required placeholder="e.g. June 2024 to May 2025"
+          class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+      </div>
+
+      <button type="submit" class="btn w-full">Generate Certificate</button>
+    </form>
+
+    <!-- Certificate Preview -->
+    <div id="certificate" class="certificate mt-10 hidden relative">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Emblem_of_India.svg/120px-Emblem_of_India.svg.png" alt="Emblem" class="emblem" />
+      <h2>Government College of Engineering, Kolhapur</h2>
+      <center>
+        <h4>(An Institute of Government of Maharashtra)</h4>
+        <p>
+                                                            E-mail:gcoekolhapur@gmail.com,office.coekokolhapur@dtemaharashtra.gov.in</p>
+        <p>Website:www.gcoekolhapur.ac.in|Phone: 0231-2521038</p>
+      </center>
+      <h3>Bonafide Certificate</h3>
+      <p>This is to certify that <strong id="certName"></strong>, bearing Roll Number <strong id="certRoll"></strong>, is a bonafide student of this institute in the Department of <strong id="certDept"></strong> for the duration <strong id="certDuration"></strong>. This certificate is issued for the purpose of scholarship.</p>
+      <p>This certificate is issued upon the student's request for official use.</p>
+
+      <div class="sign-section">
+        <div>Principal</div>
+      </div>
+    </div>
+
+    <button id="printBtn" class="btn w-full mt-6 hidden">🖨 Print / Download PDF</button>
+  </div>
+
+  <!-- Back to Dashboard Button -->
+  <div class="mb-6 text-right">
+    <button 
+      class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+      onclick="window.location.href='file:///D:/SAM/clg/dashboard/student%20dashboard0.html#'"
+      aria-label="Back to Dashboard"
+    >
+      ← Back to Dashboard
+    </button>
+  </div>
+
+  <script>
+    const form = document.getElementById('bonafideForm');
+    const certDiv = document.getElementById('certificate');
+    const printBtn = document.getElementById('printBtn');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const name = document.getElementById('studentName').value.trim();
+      const roll = document.getElementById('rollNumber').value.trim();
+      const dept = document.getElementById('department').value;
+      const duration = document.getElementById('duration').value.trim();
+
+      if (!name || !roll || !dept || !duration) return;
+
+      document.getElementById('certName').textContent = name;
+      document.getElementById('certRoll').textContent = roll;
+      document.getElementById('certDept').textContent = dept;
+      document.getElementById('certDuration').textContent = duration;
+
+      certDiv.classList.remove('hidden');
+      printBtn.classList.remove('hidden');
+
+      certDiv.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    printBtn.addEventListener('click', () => {
+      window.print();
+    });
+  </script>
+</body>
+</html>

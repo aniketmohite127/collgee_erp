@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>College ERP | Download Documents</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .doc-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(118, 75, 162, 0.4);
+    }
+    .doc-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-6 text-gray-900">
+
+  <header class="mb-10 text-center text-white">
+    <h1 class="text-4xl font-extrabold mb-2">🎓 College ERP - Student Dashboard</h1>
+    <p class="text-lg opacity-90">Download Your Important Documents Easily</p>
+  </header>
+<!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='STUDENT DASHBOARD.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+
+  <main class="max-w-5xl w-full grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+
+    <!-- Document Card Template -->
+    <div class="doc-card bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center cursor-pointer">
+      <svg class="w-14 h-14 mb-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+      <h2 class="text-xl font-semibold mb-2">Marksheet</h2>
+      <p class="text-gray-600 mb-4">View and download your semester marksheet.</p>
+      <a href="documents/marksheet.pdf" download class="btn-download bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition">Download PDF</a>
+    </div>
+
+    <div class="doc-card bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center cursor-pointer">
+      <svg class="w-14 h-14 mb-4 text-green-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h9"></path>
+        <path d="M12 4v16"></path>
+        <path d="M16 8h-8v8"></path>
+        <path d="M8 12h4"></path>
+      </svg>
+      <h2 class="text-xl font-semibold mb-2">Fee Receipt</h2>
+      <p class="text-gray-600 mb-4">Download your fee payment receipt.</p>
+      <a href="documents/fee_receipt.pdf" download class="btn-download bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700 transition">Download PDF</a>
+    </div>
+
+    <div class="doc-card bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center cursor-pointer">
+      <svg class="w-14 h-14 mb-4 text-yellow-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 6v6l4 2"></path>
+      </svg>
+      <h2 class="text-xl font-semibold mb-2">ID Card</h2>
+      <p class="text-gray-600 mb-4">Download your student ID card.</p>
+      <a href="documents/id_card.pdf" download class="btn-download bg-yellow-600 text-white px-5 py-2 rounded-md hover:bg-yellow-700 transition">Download PDF</a>
+    </div>
+
+    <div class="doc-card bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center cursor-pointer">
+      <svg class="w-14 h-14 mb-4 text-red-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"></path>
+      </svg>
+      <h2 class="text-xl font-semibold mb-2">Exam Timetable</h2>
+      <p class="text-gray-600 mb-4">Download your upcoming exam schedule.</p>
+      <a href="documents/exam_timetable.pdf" download class="btn-download bg-red-600 text-white px-5 py-2 rounded-md hover:bg-red-700 transition">Download PDF</a>
+    </div>
+
+    <div class="doc-card bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center cursor-pointer">
+      <svg class="w-14 h-14 mb-4 text-purple-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16v16H4z"></path>
+        <path d="M4 12h16"></path>
+      </svg>
+      <h2 class="text-xl font-semibold mb-2">Enrollment Certificate</h2>
+      <p class="text-gray-600 mb-4">Download your enrollment proof document.</p>
+      <a href="documents/enrollment_certificate.pdf" download class="btn-download bg-purple-600 text-white px-5 py-2 rounded-md hover:bg-purple-700 transition">Download PDF</a>
+    </div>
+
+  </main>
+
+  <footer class="mt-12 text-white opacity-80 text-center text-sm">
+    &copy; 2025 College ERP | All rights reserved
+  </footer>
+
+</body>
+</html>

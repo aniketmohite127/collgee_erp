@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>College ERP | My Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      color: #1a202c;
+    }
+    .profile-card {
+      background: white;
+      max-width: 600px;
+      margin: 3rem auto;
+      border-radius: 1rem;
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+      padding: 2.5rem;
+    }
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #764ba2;
+      box-shadow: 0 0 15px #764ba2;
+    }
+    .edit-btn {
+      background: #764ba2;
+      color: white;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .edit-btn:hover {
+      background: #5a357f;
+    }
+    input, select {
+      border: 2px solid #ddd;
+      border-radius: 0.5rem;
+      padding: 0.6rem 1rem;
+      width: 100%;
+      transition: border-color 0.3s ease;
+      font-size: 1rem;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #764ba2;
+      box-shadow: 0 0 8px #764ba2;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #764ba2;
+      margin-bottom: 1rem;
+    }
+    .field-label {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      display: block;
+      color: #555;
+    }
+    .btn-save {
+      background: #38a169; /* green-600 */
+      color: white;
+      font-weight: 700;
+      padding: 0.7rem 2rem;
+      border-radius: 0.75rem;
+      margin-top: 1rem;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+    .btn-save:hover {
+      background: #2f855a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="profile-card">
+    <div class="flex flex-col items-center mb-8">
+      <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Profile Picture" class="profile-pic mb-4" id="profileImage" />
+      <input type="file" id="imageUpload" accept="image/*" style="display:none" />
+      <button class="edit-btn px-5 py-2 rounded-full" onclick="document.getElementById('imageUpload').click()">
+        Change Photo
+      </button>
+    </div>
+
+    <h1 class="section-title text-center">My Profile</h1>
+
+    <form id="profileForm" autocomplete="off">
+      <div class="mb-4">
+        <label for="fullName" class="field-label">Full Name</label>
+        <input type="text" id="fullName" name="fullName" value="Aniket Mohite" required />
+      </div>
+      <div class="mb-4">
+        <label for="studentId" class="field-label">Student ID</label>
+        <input type="text" id="studentId" name="studentId" value="CSE2025001" readonly class="bg-gray-100 cursor-not-allowed" />
+      </div>
+      <div class="mb-4">
+        <label for="email" class="field-label">Email</label>
+        <input type="email" id="email" name="email" value="aniket.mohite@example.com" required />
+      </div>
+      <div class="mb-4">
+        <label for="phone" class="field-label">Phone Number</label>
+        <input type="tel" id="phone" name="phone" value="+91 9876543210" required />
+      </div>
+      <div class="mb-4">
+        <label for="department" class="field-label">Department</label>
+        <select id="department" name="department" required>
+          <option value="cse" selected>Computer Science & Engineering</option>
+          <option value="ai">Artificial Intelligence & Data Science</option>
+          <option value="entc">Electronics & Telecommunication</option>
+          <option value="electrical">Electrical Engineering</option>
+          <option value="mech">Mechanical & Automation</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-save">Save Changes</button>
+    </form>
+
+    <div id="successMsg" class="mt-4 text-green-600 font-semibold text-center"></div>
+  </div>
+<!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='STUDENT DASHBOARD.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+
+<script>
+  // Profile image change preview
+  const imageUpload = document.getElementById('imageUpload');
+  const profileImage = document.getElementById('profileImage');
+  imageUpload.addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        profileImage.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Form submit handling
+  const profileForm = document.getElementById('profileForm');
+  const successMsg = document.getElementById('successMsg');
+
+  profileForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    // In real app, save data to backend via API here
+
+    successMsg.textContent = 'Profile updated successfully!';
+    setTimeout(() => {
+      successMsg.textContent = '';
+    }, 4000);
+  });
+</script>
+
+</body>
+</html>

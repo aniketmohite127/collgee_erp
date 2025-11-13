@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Faculty Profile - College ERP</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      color: #333;
+    }
+
+    .profile-container {
+      background: #fff;
+      max-width: 700px;
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      padding: 30px 40px;
+      color: #4b2c83;
+      position: relative;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      border-bottom: 2px solid #764ba2;
+      padding-bottom: 20px;
+      margin-bottom: 25px;
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #764ba2;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .profile-pic:hover {
+      box-shadow: 0 0 15px #b83280;
+    }
+
+    .profile-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .upload-label {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: #b83280;
+      color: white;
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 0 0 15px 0;
+      cursor: pointer;
+      opacity: 0.9;
+      transition: opacity 0.3s ease;
+    }
+
+    .upload-label:hover {
+      opacity: 1;
+    }
+
+    .profile-info h2 {
+      font-size: 2rem;
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .profile-info p {
+      font-size: 1.1rem;
+      margin-top: 6px;
+      color: #764ba2;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 40px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+      color: #5a2a83;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 2px solid #b83280;
+      font-size: 1rem;
+      outline: none;
+      font-family: 'Poppins', sans-serif;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #764ba2;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    button {
+      grid-column: 1 / -1;
+      background: #b83280;
+      color: white;
+      padding: 12px 0;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #764ba2;
+    }
+
+    @media(max-width: 600px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+      .profile-header {
+        flex-direction: column;
+        align-items: center;
+      }
+      .profile-info h2 {
+        font-size: 1.7rem;
+      }
+      .profile-info p {
+        font-size: 1rem;
+      }
+      .profile-pic {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+<body> <!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='faculty dashboard.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="profile-pic" title="Change Profile Picture">
+        <img src="https://i.pravatar.cc/150?img=12" alt="Profile Picture" id="profileImage" />
+        <label for="profileUpload" class="upload-label">Change</label>
+        <input type="file" id="profileUpload" accept="image/*" style="display:none" />
+      </div>
+      <div class="profile-info">
+        <h2 id="facultyName">Dr. Rohan Patil</h2>
+        <p id="facultyDept">Department of Computer Science</p>
+      </div>
+    </div>
+
+    <form id="profileForm">
+      <div>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" value="Dr. Rohan Patil" required />
+      </div>
+      <div>
+        <label for="email">Email Address</label>
+        <input type="email" id="email" value="rohan.patil@college.edu" required />
+      </div>
+      <div>
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" value="+91 9876543210" required />
+      </div>
+      <div>
+        <label for="department">Department</label>
+        <select id="department" required>
+          <option value="">Select Department</option>
+          <option value="CSE" selected>Computer Science</option>
+          <option value="AI">Artificial Intelligence</option>
+          <option value="ETC">Electronics & Telecommunication</option>
+          <option value="ME">Mechanical</option>
+          <option value="EE">Electrical</option>
+        </select>
+      </div>
+      <div class="full-width">
+        <label for="address">Address</label>
+        <input type="text" id="address" value="123, College Road, City, State" />
+      </div>
+      <button type="submit">Update Profile</button>
+    </form>
+  </div>
+
+  <script>
+    const profileUpload = document.getElementById('profileUpload');
+    const profileImage = document.getElementById('profileImage');
+    const facultyName = document.getElementById('facultyName');
+    const facultyDept = document.getElementById('facultyDept');
+    const profileForm = document.getElementById('profileForm');
+
+    profileUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          profileImage.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    profileForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Update displayed name and department heading dynamically
+      const name = document.getElementById('name').value.trim();
+      const dept = document.getElementById('department').selectedOptions[0].text;
+      facultyName.textContent = name || 'Faculty Name';
+      facultyDept.textContent = `Department of ${dept}`;
+      alert('Profile updated successfully!');
+    });
+  </script>
+
+</body>
+</html>

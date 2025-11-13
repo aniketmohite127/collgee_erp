@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Faculty Dashboard - College ERP</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f7f7fa;
+    }
+    .sidebar {
+      background: linear-gradient(to bottom, #4c1d95, #7e22ce);
+    }
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+  <!-- Sidebar -->
+  <aside class="sidebar w-64 text-white flex flex-col p-6 space-y-4">
+    <h2 class="text-2xl font-bold mb-6">Faculty Panel</h2>
+    <a href="#" class="block py-2 px-4 rounded hover:bg-purple-700">Dashboard</a>
+    <a href="faculty attdence.html" class="block py-2 px-4 rounded hover:bg-purple-700">Attendance</a>
+    <a href="faculty matrial.html" class="block py-2 px-4 rounded hover:bg-purple-700">Upload Material</a>
+    <a href="faculty students performs.html" class="block py-2 px-4 rounded hover:bg-purple-700">Student Performance</a>
+    <a href="#" class="block py-2 px-4 rounded hover:bg-purple-700">PDF Reports</a>
+    <a href="faculty notification.html" class="block py-2 px-4 rounded hover:bg-purple-700">Notifications</a>
+    <a href="faculty ttdence.html" class="block py-2 px-4 rounded hover:bg-purple-700">Mark student attends</a>
+    <a href="faculty profile.html" class="block py-2 px-4 rounded hover:bg-purple-700">My Profile</a>
+    <a href="home.html" class="mt-auto block py-2 px-4 rounded bg-red-500 hover:bg-red-600">Logout</a>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-6 overflow-y-auto">
+    <!-- Top Navbar -->
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-gray-800">Welcome, Faculty!</h1>
+      <div class="flex items-center space-x-4">
+        <span class="text-gray-600">Logged in as: <strong>Prof. Aniket</strong></span>
+        <img src="https://via.placeholder.com/40" class="rounded-full" alt="Profile" />
+      </div>
+    </div>
+
+    <!-- Dashboard Widgets -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-white shadow-md rounded-xl p-5">
+        <h2 class="text-xl font-semibold mb-2">Today's Attendance</h2>
+        <p class="text-gray-600">Mark and review attendance of students.</p>
+      </div>
+      <div class="bg-white shadow-md rounded-xl p-5">
+        <h2 class="text-xl font-semibold mb-2">Upload Materials</h2>
+        <p class="text-gray-600">Add assignments, PDFs, notes for students.</p>
+      </div>
+      <div class="bg-white shadow-md rounded-xl p-5">
+        <h2 class="text-xl font-semibold mb-2">Performance Reports</h2>
+        <p class="text-gray-600">Check and upload student exam results.</p>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

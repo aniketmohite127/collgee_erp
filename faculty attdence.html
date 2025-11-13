@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>College ERP - Attendance</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    margin: 0; padding: 0;
+    color: #333;
+  }
+  .container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  h1 {
+    text-align: center;
+    color: #4b0082;
+    margin-bottom: 25px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+  }
+  thead {
+    background: #764ba2;
+    color: #fff;
+  }
+  th, td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  tbody tr:hover {
+    background: #f0e6ff;
+  }
+  input[type="number"] {
+    width: 70px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-weight: 600;
+    text-align: center;
+  }
+  button {
+    background: #764ba2;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 4px 10px rgba(118, 75, 162, 0.5);
+  }
+  button:hover {
+    background: #5b3578;
+  }
+  /* Responsive */
+  @media (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+    thead tr {
+      display: none;
+    }
+    tbody tr {
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(118, 75, 162, 0.2);
+      padding: 15px;
+      background: #f9f5ff;
+    }
+    tbody td {
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
+    }
+    tbody td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 15px;
+      font-weight: 600;
+      color: #764ba2;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+    input[type="number"] {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Attendance - Export to PDF</h1>
+    <!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='faculty dashboard.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+
+    <table id="attendanceTable" aria-label="Attendance Table">
+      <thead>
+        <tr>
+          <th>Roll No.</th>
+          <th>Student Name</th>
+          <th>Total Classes</th>
+          <th>Classes Attended</th>
+          <th>Attendance %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Roll No.">101</td>
+          <td data-label="Student Name">Aniket Mohite</td>
+          <td data-label="Total Classes">60</td>
+          <td data-label="Classes Attended"><input type="number" min="0" max="60" value="55" onchange="updatePercentage(this)" /></td>
+          <td data-label="Attendance %" class="percentage">91.67%</td>
+        </tr>
+        <tr>
+          <td data-label="Roll No.">102</td>
+          <td data-label="Student Name">Rohit Patil</td>
+          <td data-label="Total Classes">60</td>
+          <td data-label="Classes Attended"><input type="number" min="0" max="60" value="50" onchange="updatePercentage(this)" /></td>
+          <td data-label="Attendance %" class="percentage">83.33%</td>
+        </tr>
+        <tr>
+          <td data-label="Roll No.">103</td>
+          <td data-label="Student Name">Sneha Kulkarni</td>
+          <td data-label="Total Classes">60</td>
+          <td data-label="Classes Attended"><input type="number" min="0" max="60" value="58" onchange="updatePercentage(this)" /></td>
+          <td data-label="Attendance %" class="percentage">96.67%</td>
+        </tr>
+        <tr>
+          <td data-label="Roll No.">104</td>
+          <td data-label="Student Name">Pranav Deshmukh</td>
+          <td data-label="Total Classes">60</td>
+          <td data-label="Classes Attended"><input type="number" min="0" max="60" value="45" onchange="updatePercentage(this)" /></td>
+          <td data-label="Attendance %" class="percentage">75.00%</td>
+        </tr>
+      </tbody>
+    </table>
+    <button onclick="exportToPDF()">Export Attendance as PDF</button>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+  // Update attendance percentage on input change
+  function updatePercentage(input) {
+    const tr = input.closest('tr');
+    const totalClasses = +tr.children[2].textContent;
+    let attended = +input.value;
+
+    if (attended < 0) attended = 0;
+    if (attended > totalClasses) attended = totalClasses;
+    input.value = attended;
+
+    const percentageCell = tr.querySelector('.percentage');
+    const percent = ((attended / totalClasses) * 100).toFixed(2);
+    percentageCell.textContent = percent + '%';
+  }
+
+  // Export table to PDF using jsPDF and autotable plugin
+  function exportToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("College ERP - Attendance Report", 14, 22);
+
+    const data = [];
+    const rows = document.querySelectorAll('#attendanceTable tbody tr');
+    rows.forEach(row => {
+      const rowData = [];
+      rowData.push(row.cells[0].textContent); // Roll No
+      rowData.push(row.cells[1].textContent); // Name
+      rowData.push(row.cells[2].textContent); // Total Classes
+      rowData.push(row.querySelector('input').value); // Attended
+      rowData.push(row.cells[4].textContent); // Percentage
+      data.push(rowData);
+    });
+
+    doc.autoTable({
+      head: [['Roll No.', 'Student Name', 'Total Classes', 'Classes Attended', 'Attendance %']],
+      body: data,
+      startY: 30,
+      styles: { halign: 'center' },
+      headStyles: { fillColor: [118, 75, 162] },
+      alternateRowStyles: { fillColor: [245, 240, 255] }
+    });
+
+    doc.save('Attendance_Report.pdf');
+  }
+</script>
+</body>
+</html>

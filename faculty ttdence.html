@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Faculty - Attendance</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gradient-to-r from-purple-600 to-pink-500 min-h-screen text-white font-sans">
+ <!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='faculty dashboard.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+  <div class="max-w-4xl mx-auto py-10 px-6">
+    <h1 class="text-4xl font-bold mb-6 text-center">📋 Mark Student Attendance</h1>
+
+    <!-- Class & Subject Selection -->
+    <div class="bg-white text-gray-800 rounded-xl shadow p-6 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="font-semibold block mb-1">Class:</label>
+          <select class="w-full border p-2 rounded" id="classSelect">
+            <option>B.Tech CSE</option>
+            <option>B.Tech AI & DS</option>
+            <option>B.Tech Electrical</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-semibold block mb-1">Subject:</label>
+          <select class="w-full border p-2 rounded" id="subjectSelect">
+            <option>Data Structures</option>
+            <option>Maths 3</option>
+            <option>OOP in C++</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attendance Table -->
+    <div class="bg-white text-gray-800 rounded-xl shadow p-6">
+      <form id="attendanceForm">
+        <table class="w-full text-left border">
+          <thead>
+            <tr class="bg-purple-600 text-white">
+              <th class="p-3">Roll No</th>
+              <th class="p-3">Name</th>
+              <th class="p-3 text-center">Present</th>
+              <th class="p-3 text-center">Absent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Sample student rows -->
+            <tr>
+              <td class="p-3">101</td>
+              <td class="p-3">Aniket Mohite</td>
+              <td class="p-3 text-center"><input type="radio" name="student101" value="Present" required></td>
+              <td class="p-3 text-center"><input type="radio" name="student101" value="Absent"></td>
+            </tr>
+            <tr class="bg-gray-100">
+              <td class="p-3">102</td>
+              <td class="p-3">Tejas Patil</td>
+              <td class="p-3 text-center"><input type="radio" name="student102" value="Present" required></td>
+              <td class="p-3 text-center"><input type="radio" name="student102" value="Absent"></td>
+            </tr>
+            <!-- Add more students dynamically in backend -->
+          </tbody>
+        </table>
+
+        <div class="mt-6 text-center">
+          <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-6 rounded-lg transition">
+            ✅ Submit Attendance
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("attendanceForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Attendance submitted successfully! ✅");
+      // Backend integration goes here (Node.js / Firebase / PHP)
+    });
+  </script>
+
+</body>
+</html>

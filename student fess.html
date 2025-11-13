@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>College ERP | Fees & Payment</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .container {
+      max-width: 700px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .pay-btn {
+      background-color: #4f46e5; /* Indigo-600 */
+      color: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .pay-btn:hover {
+      background-color: #4338ca; /* Indigo-700 */
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      padding: 0.7rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #ede9fe;
+      color: #4c51bf;
+    }
+    .status-success {
+      color: #16a34a; /* green-600 */
+      font-weight: 700;
+    }
+    .status-failed {
+      color: #dc2626; /* red-600 */
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="text-3xl font-bold mb-6 text-indigo-700 text-center">College ERP - Fees & Payment</h1>
+<!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='file:///D:/SAM/clg/dashboard/student%20dashboard0.html#'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+
+    <div>
+      <p><strong>Total Fees:</strong> <span id="totalFees">₹ 50,000</span></p>
+      <p><strong>Paid Amount:</strong> <span id="paidAmount">₹ 0</span></p>
+      <p><strong>Balance:</strong> <span id="balanceAmount">₹ 50,000</span></p>
+    </div>
+
+    <div class="mt-6 flex items-center">
+      <button class="pay-btn" onclick="simulatePayment()">Make Payment 💸</button>
+      <button id="generatePdfBtn" class="pay-btn" style="background:#16a34a; margin-left: 1rem;">Generate Invoice PDF 📄</button>
+    </div>
+
+    <h2 class="mt-10 text-xl font-semibold text-indigo-600">Payment History</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Transaction ID</th>
+          <th>Amount</th>
+          <th>Mode</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="paymentHistoryBody">
+        <!-- Payment records inserted here -->
+      </tbody>
+    </table>
+  </div>
+
+<script>
+  // Data structure to hold fees info
+  const feesData = {
+    totalFees: 50000,
+    paidAmount: 0,
+    payments: []
+  };
+
+  // Utility: format currency as ₹ with commas
+  function formatCurrency(amount) {
+    return '₹ ' + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  // Update fees summary display
+  function updateFeesSummary() {
+    document.getElementById('totalFees').textContent = formatCurrency(feesData.totalFees);
+    document.getElementById('paidAmount').textContent = formatCurrency(feesData.paidAmount);
+    document.getElementById('balanceAmount').textContent = formatCurrency(feesData.totalFees - feesData.paidAmount);
+  }
+
+  // Load payment history table rows
+  function loadPaymentHistory() {
+    const tbody = document.getElementById('paymentHistoryBody');
+    tbody.innerHTML = '';
+
+    if (feesData.payments.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-500 py-4">No payments made yet.</td></tr>';
+      return;
+    }
+
+    feesData.payments.forEach(payment => {
+      const tr = document.createElement('tr');
+
+      tr.innerHTML = `
+        <td>${payment.date}</td>
+        <td>${payment.txnId}</td>
+        <td>${formatCurrency(payment.amount)}</td>
+        <td>${payment.mode}</td>
+        <td class="${payment.status === 'Success' ? 'status-success' : 'status-failed'}">${payment.status}</td>
+      `;
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  // Simulate payment with success/fail handler
+  function simulatePayment() {
+    if (feesData.paidAmount >= feesData.totalFees) {
+      alert('All fees already paid. Thank you!');
+      return;
+    }
+
+    const payAmount = prompt('Enter amount to pay:', '5000');
+    if (!payAmount) return;
+
+    const amount = parseInt(payAmount);
+    if (isNaN(amount) || amount <= 0) {
+      alert('Invalid amount entered.');
+      return;
+    }
+
+    if (amount + feesData.paidAmount > feesData.totalFees) {
+      alert('Payment exceeds total fees balance.');
+      return;
+    }
+
+    // Random success/fail (80% success)
+    const isSuccess = Math.random() < 0.8;
+
+    const newPayment = {
+      date: new Date().toISOString().split('T')[0],
+      txnId: 'TXN' + (Math.floor(Math.random() * 900000) + 100000),
+      amount: amount,
+      mode: 'Online',
+      status: isSuccess ? 'Success' : 'Failed'
+    };
+
+    if (isSuccess) {
+      feesData.paidAmount += amount;
+      alert(`Payment of ${formatCurrency(amount)} successful!`);
+    } else {
+      alert(`Payment of ${formatCurrency(amount)} failed. Please try again.`);
+    }
+
+    feesData.payments.push(newPayment);
+
+    updateFeesSummary();
+    loadPaymentHistory();
+  }
+
+  // PDF generate using jsPDF
+  const { jsPDF } = window.jspdf;
+
+  function generatePdfInvoice() {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("College ERP - Fees Invoice", 14, 20);
+
+    doc.setFontSize(12);
+    doc.text(`Total Fees: ${formatCurrency(feesData.totalFees)}`, 14, 40);
+    doc.text(`Paid Amount: ${formatCurrency(feesData.paidAmount)}`, 14, 50);
+    doc.text(`Balance: ${formatCurrency(feesData.totalFees - feesData.paidAmount)}`, 14, 60);
+
+    doc.text("Payment History:", 14, 80);
+
+    let startY = 90;
+    feesData.payments.forEach((payment, index) => {
+      const text = `${payment.date} | ${payment.txnId} | ${formatCurrency(payment.amount)} | ${payment.mode} | ${payment.status}`;
+      doc.text(text, 14, startY + index * 10);
+    });
+
+    doc.save("fees_invoice.pdf");
+  }
+
+  document.getElementById('generatePdfBtn').addEventListener('click', generatePdfInvoice);
+
+  // Fees due reminder notification
+  function notifyFeeDue() {
+    if (!("Notification" in window)) {
+      alert("This browser does not support desktop notifications.");
+      return;
+    }
+
+    if (feesData.totalFees - feesData.paidAmount <= 0) return; // No dues
+
+    if (Notification.permission === "granted") {
+      new Notification("Fees Due Reminder", {
+        body: `Your fees balance is ${formatCurrency(feesData.totalFees - feesData.paidAmount)}. Please pay on time!`,
+        icon: "https://cdn-icons-png.flaticon.com/512/1828/1828919.png"
+      });
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          new Notification("Fees Due Reminder", {
+            body: `Your fees balance is ${formatCurrency(feesData.totalFees - feesData.paidAmount)}. Please pay on time!`,
+            icon: "https://cdn-icons-png.flaticon.com/512/1828/1828919.png"
+          });
+        }
+      });
+    }
+  }
+
+  // On load
+  window.onload = () => {
+    updateFeesSummary();
+    loadPaymentHistory();
+    setTimeout(notifyFeeDue, 5000);
+  };
+</script>
+
+</body>
+</html>

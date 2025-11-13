@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Attendance Tracker | College ERP</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    /* Fade-in animation for attendance cards */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .fade-in-up {
+      animation: fadeInUp 0.5s ease forwards;
+    }
+    /* Button hover and focus effects */
+    .btn-dashboard {
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .btn-dashboard:hover {
+      background-color: #4c51bf; /* Indigo-700 */
+      transform: scale(1.05);
+    }
+    .btn-dashboard:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(76, 81, 191, 0.5);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-blue-50 to-purple-100 min-h-screen p-6">
+
+  <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+    <h1 class="text-3xl font-bold mb-8 text-center text-indigo-700">📚 Attendance Tracker</h1>
+
+
+    <!-- Department Selector -->
+    <div class="mb-6">
+      <label for="department" class="block text-lg font-medium text-gray-700 mb-2">Select Department</label>
+      <select id="department" class="w-full border rounded-lg px-4 py-2 transition duration-300 ease-in-out focus:ring-2 focus:ring-indigo-400 focus:outline-none" onchange="loadRollNumbers()">
+        <option value="">-- Select Department --</option>
+        <option value="cse">Computer Science & Engineering</option>
+        <option value="ai">Artificial Intelligence & Data Science</option>
+        <option value="entc">Electronics & Telecommunication</option>
+        <option value="electrical">Electrical Engineering</option>
+        <option value="mech">Mechanical & Automation</option>
+      </select>
+      <p id="studentCount" class="mt-2 text-sm text-gray-600"></p> <!-- Student count display -->
+    </div>
+
+    <!-- Roll Number Selector -->
+    <div class="mb-8">
+      <label for="rollNumber" class="block text-lg font-medium text-gray-700 mb-2">Select Roll Number</label>
+      <select id="rollNumber" class="w-full border rounded-lg px-4 py-2 transition duration-300 ease-in-out focus:ring-2 focus:ring-indigo-400 focus:outline-none" onchange="showAttendance()">
+        <option value="">-- Select Roll Number --</option>
+      </select>
+    </div>
+
+    <!-- Attendance Display -->
+    <div id="attendanceContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden">
+      <!-- Attendance cards will render here -->
+    </div>
+  </div>
+
+      <!-- Back to Dashboard Button -->
+    <div class="mb-6 text-right">
+      <button 
+        class="btn-dashboard bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg shadow hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400"
+        onclick="window.location.href='STUDENT DASHBOARD.html'"
+        aria-label="Back to Dashboard"
+      >
+        ← Back to Dashboard
+      </button>
+    </div>
+    </div>
+  </div>
+  <script>
+    // Sample attendance data
+    const attendanceData = {
+      cse: {
+        "CSE001": [
+          { subject: "Data Structures", present: 42, total: 50 },
+          { subject: "Operating Systems", present: 39, total: 50 },
+          { subject: "DBMS", present: 45, total: 50 }
+        ],
+        "CSE002": [
+          { subject: "Data Structures", present: 48, total: 50 },
+          { subject: "Operating Systems", present: 44, total: 50 },
+          { subject: "DBMS", present: 47, total: 50 }
+        ]
+      },
+      ai: {
+        "AI001": [
+          { subject: "Machine Learning", present: 40, total: 48 },
+          { subject: "Deep Learning", present: 35, total: 48 },
+          { subject: "Data Science", present: 38, total: 48 }
+        ]
+      },
+      entc: {
+        "ENTC001": [
+          { subject: "DSP", present: 45, total: 50 },
+          { subject: "VLSI", present: 41, total: 50 },
+          { subject: "Communication Systems", present: 44, total: 50 }
+        ]
+      },
+      electrical: {
+        "EE001": [
+          { subject: "Power Systems", present: 38, total: 45 },
+          { subject: "Electrical Machines", present: 42, total: 45 }
+        ]
+      },
+      mech: {
+        "MECH001": [
+          { subject: "Thermodynamics", present: 36, total: 44 },
+          { subject: "Automation", present: 38, total: 44 }
+        ]
+      }
+    };
+
+    function loadRollNumbers() {
+      const deptSelect = document.getElementById('department');
+      const rollSelect = document.getElementById('rollNumber');
+      const attendanceContainer = document.getElementById('attendanceContainer');
+      const studentCountDisplay = document.getElementById('studentCount');
+
+      const dept = deptSelect.value;
+      rollSelect.innerHTML = '<option value="">-- Select Roll Number --</option>';
+      attendanceContainer.innerHTML = '';
+      attendanceContainer.classList.add('hidden');
+
+      if (!dept || !attendanceData[dept]) {
+        studentCountDisplay.textContent = '';
+        return;
+      }
+
+      const rolls = Object.keys(attendanceData[dept]);
+      rolls.forEach(rn => {
+        const option = document.createElement('option');
+        option.value = rn;
+        option.textContent = rn;
+        rollSelect.appendChild(option);
+      });
+
+      studentCountDisplay.textContent = `Total Students in this department: ${rolls.length}`;
+    }
+
+    function showAttendance() {
+      const dept = document.getElementById('department').value;
+      const roll = document.getElementById('rollNumber').value;
+      const attendanceContainer = document.getElementById('attendanceContainer');
+
+      attendanceContainer.innerHTML = '';
+
+      if (!dept || !roll || !attendanceData[dept] || !attendanceData[dept][roll]) {
+        attendanceContainer.classList.add('hidden');
+        return;
+      }
+
+      const subjects = attendanceData[dept][roll];
+
+      subjects.forEach((subj, index) => {
+        const percent = Math.round((subj.present / subj.total) * 100);
+        const card = document.createElement('div');
+        card.className = 'bg-white p-6 rounded-lg shadow-md fade-in-up';
+        card.style.animationDelay = `${index * 150}ms`;
+
+        card.innerHTML = `
+          <h3 class="text-xl font-semibold text-indigo-700 mb-2">${subj.subject}</h3>
+          <p class="text-gray-700">Present: ${subj.present} / ${subj.total}</p>
+          <div class="w-full bg-gray-300 rounded-full h-4 mt-3">
+            <div class="h-4 rounded-full ${percent < 75 ? 'bg-red-500' : 'bg-green-500'}" style="width: ${percent}%; transition: width 0.8s ease;"></div>
+          </div>
+          <p class="mt-1 ${percent < 75 ? 'text-red-600' : 'text-green-600'} font-semibold">${percent}% Attendance</p>
+        `;
+
+        attendanceContainer.appendChild(card);
+      });
+
+      attendanceContainer.classList.remove('hidden');
+    }
+  </script>
+
+</body>
+</html>

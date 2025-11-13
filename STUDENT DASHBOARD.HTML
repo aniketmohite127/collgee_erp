@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Dashboard | ERP</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-indigo-700 text-white px-6 py-4 flex justify-between items-center">
+  <h1 class="text-2xl font-bold">🎓 Student Dashboard</h1>
+
+  <a href="http://localhost/college_erp/login.html" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded hover:bg-white-700 text-white inline-block">
+  Logout
+</a>
+  </nav>
+
+  <main class="p-8">
+    <div class="grid grid-cols-1 sm:grid-cols-5 lg:grid-cols-3 gap-6" id="cards-container">
+      <!-- Cards will be injected here -->
+    </div>
+  </main>
+
+  <script>
+    const cardsContainer = document.getElementById("cards-container");
+
+    // Card features with title and link (update links as needed)
+    const features = [
+      { title: "📚 Course Registration", link: "student course.html" },
+      { title: "🕒 Attendance Tracker", link: "student attdence.html" },
+      { title: "📅 Exam Timetable", link: "student examtable.html" },
+      { title: "📝 Results & Grades", link: "student result.html" },
+      { title: "💳 Fee Status & Payment", link:  "./college_fees_system/" },
+ 
+      { title: "📎 Download Documents", link: "student document.html" },
+      { title: "📢 Notifications", link: "student notification.html" },
+      { title: "🆘 Helpdesk / Raise Ticket", link: "student help desk.html" },
+      { title: "👤 My Profile", link: "student myprofile.html" },
+      { title: "📄 Bonafide Certificate", link: "student bonafide.html" },
+      { title: "📑 Other Certificates", link: "student other certificate.html" },
+      { title: "📝 Assignment submission", link: "student Assignment.html"},
+      { title: "📝 Tutorial submission", link: "student tutorial.html"},
+      { title: "📝 Practical submission", link: "practical_submission.html"},
+      { title: "📝 Library", link: "student libary.html"},
+    ];
+
+    cardsContainer.innerHTML = features.map(feature => `
+      <div class="bg-white rounded-xl shadow-md p-6 hover:bg-indigo-900 transition flex flex-col justify-between">
+        <h2 class="text-lg font-semibold mb-4">${feature.title}</h2>
+        <a href="${feature.link}" class="mt-auto inline-block bg-indigo-700 text-white py-2 px-4 rounded hover:bg-green-700 text-center transition">
+          Open
+        </a>
+      </div>
+    `).join('');
+  </script>
+<footer class="bg-indigo-900 text-white text-center py-4 mt-10">
+  © 2025 Government College of Engineering, Kolhapur | All Rights Reserved
+</footer>
+
+</body>
+</html>
